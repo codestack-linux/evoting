@@ -6,13 +6,20 @@ import { castVote } from "@/lib/actions/vote";
 import { User } from "lucide-react";
 import VoteButton from "@/components/VoteButton";
 
+interface Candidate {
+  id: number;
+  name: string;
+  vision: string;
+  mission: string;
+  photo?: string | null;
+}
 export default async function BilikPage() {
   const cookieStore = await cookies();
   const token = cookieStore.get("voter_token")?.value;
 
   if (!token) redirect("/");
 
-  const candidates = await prisma.candidate.findMany({
+  const candidates: Candidate[] = await prisma.candidate.findMany({
     orderBy: { id: "asc" },
   });
 
@@ -32,7 +39,7 @@ export default async function BilikPage() {
         </header>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-          {candidates.map((c, index) => (
+          {candidates.map((c: Candidate, index) => (
             <div
               key={c.id}
               className="bg-white rounded-[40px] overflow-hidden border border-slate-100 shadow-xl shadow-slate-200/50 flex flex-col group hover:-translate-y-2 transition-all duration-300"
