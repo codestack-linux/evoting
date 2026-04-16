@@ -2,9 +2,10 @@
 //   provider = "prisma-client-js"
 // }
 generator client {
-  provider        = "prisma-client"
-  output          = "../generated/prisma/client" // Ini kuncinya
-  previewFeatures = ["driverAdapters"]
+  provider = "prisma-client-js"
+  // output          = "../generated/prisma/client" // Ini kuncinya
+  // previewFeatures = ["driverAdapters"]
+  output   = "../generated/client"
 }
 
 datasource db {
