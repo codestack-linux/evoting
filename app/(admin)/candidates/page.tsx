@@ -2,9 +2,15 @@ import prisma from "@/lib/prisma";
 import CandidateForm from "@/components/CandidateForm";
 import { Trash2, User } from "lucide-react";
 import { deleteCandidate } from "@/lib/actions/candidate";
-
+interface Candidate {
+  id: number;
+  name: string;
+  vision: string;
+  mission: string;
+  photo?: string | null;
+}
 export default async function CandidatePage() {
-  const candidates = await prisma.candidate.findMany({
+  const candidates: Candidate[] = await prisma.candidate.findMany({
     orderBy: { id: "asc" },
   });
 
@@ -33,7 +39,7 @@ export default async function CandidatePage() {
 
           {/* List Section */}
           <div className="lg:col-span-2 space-y-6">
-            {candidates.map((c, index) => (
+            {candidates.map((c: Candidate, index) => (
               <div
                 key={c.id}
                 className="bg-white p-6 rounded-[32px] border border-slate-100 shadow-sm flex flex-col md:flex-row gap-6 group hover:border-blue-200 transition-all"
