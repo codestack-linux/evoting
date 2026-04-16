@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import prisma from "@/lib/prisma";
 import CandidateForm from "@/components/CandidateForm";
 import { Trash2, User } from "lucide-react";

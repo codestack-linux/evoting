@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import DownloadRekap from "@/components/DownloadRekap";
 import QuickCountChart from "@/components/QuickCountChart";
 import { Activity } from "lucide-react";

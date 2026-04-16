@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { deleteAllTokens } from "@/lib/actions/token";
 import TokenForm from "@/components/TokenForm";
 import prisma from "@/lib/prisma";
