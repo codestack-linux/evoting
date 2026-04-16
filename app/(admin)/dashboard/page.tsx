@@ -3,13 +3,28 @@ import TokenForm from "@/components/TokenForm";
 import prisma from "@/lib/prisma";
 import { PlusIcon } from "lucide-react";
 import TokenGridRealtime from "@/components/TokenGridRealtime";
+export interface Token {
+  id: number;
+  code: string;
+  isUsed: boolean;
+  createdAt: Date;
+  usedAt: Date | null;
+  vote?: Vote | null;
+}
 
+// Interface pendukung jika Anda melakukan fetching include Vote
+export interface Vote {
+  id: number;
+  candidateId: number;
+  tokenId: number;
+  createdAt: Date;
+}
 export default async function TokenPage() {
-  const initialTokens = await prisma.token.findMany({
+  const initialTokens: Token[] = await prisma.token.findMany({
     orderBy: { createdAt: "desc" },
   });
 
-  const usedCount = initialTokens.filter((t) => t.isUsed).length;
+  const usedCount = initialTokens.filter((t: Token) => t.isUsed).length;
   const availableCount = initialTokens.length - usedCount;
 
   return (
