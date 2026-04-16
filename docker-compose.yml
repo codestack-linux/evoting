@@ -1,0 +1,39 @@
+# docker-compose.yml
+version: "3.8"
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: osis-db
+    restart: always
+    environment:
+      POSTGRES_USER: bagas
+      POSTGRES_PASSWORD: sdksdk
+      POSTGRES_DB: osis_voting
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - net-jurnal-osis-voting
+
+  osis-voting:
+    build:
+      dockerfile: Dockerfile
+      args:
+        - DATABASE_URL=${DATABASE_URL}
+        - NEXT_PUBLIC_API=${NEXT_PUBLIC_API}
+    container_name: osis-voting
+    restart: always
+    environment:
+      - PORT=3000
+      - DATABASE_URL=postgresql://bagas:sdksdk@db:5432/osis_voting?schema=public
+    depends_on:
+      - db
+    networks:
+      - net-jurnal-osis-voting
+volumes:
+  postgres_data:
+
+networks:
+  net-jurnal-osis-voting:
+    driver: bridge

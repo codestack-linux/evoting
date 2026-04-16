@@ -1,0 +1,49 @@
+// generator client {
+//   provider = "prisma-client-js"
+// }
+generator client {
+  provider        = "prisma-client"
+  output          = "../generated/prisma/client" // Ini kuncinya
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  password  String // Hash password
+  name      String
+  role      String   @default("ADMIN") // Untuk membedakan level akses jika perlu
+  createdAt DateTime @default(now())
+}
+
+model Candidate {
+  id      Int     @id @default(autoincrement())
+  name    String
+  vision  String
+  mission String
+  photo   String?
+  votes   Vote[]
+}
+
+model Token {
+  id        Int       @id @default(autoincrement())
+  code      String    @unique
+  isUsed    Boolean   @default(false)
+  createdAt DateTime  @default(now())
+  usedAt    DateTime?
+  vote      Vote?
+}
+
+model Vote {
+  id          Int      @id @default(autoincrement())
+  candidateId Int
+  tokenId     Int      @unique
+  votedAt     DateTime @default(now())
+
+  candidate Candidate @relation(fields: [candidateId], references: [id])
+  token     Token     @relation(fields: [tokenId], references: [id])
+}
